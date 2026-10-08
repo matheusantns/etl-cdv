@@ -14,7 +14,7 @@ models:
               config:
                 severity: error
       - name: client_id
-        description: Identificador único do cliente.
+        description: Identificador do cliente.
         tests:
           - not_null:
               config:
