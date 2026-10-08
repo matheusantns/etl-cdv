@@ -1,0 +1,6 @@
+take_home_clube_do_valor:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: .duckdb/cdv.duckdb

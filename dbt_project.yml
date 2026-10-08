@@ -1,9 +1,9 @@
-name: "take_home_clube_do_valor"
-profile: "take_home_clube_do_valor"
-model-paths: "models"
-seed-paths: "seeds"
-macro-paths: "macros"
-test-paths: "tests"
+name: take_home_clube_do_valor
+profile: take_home_clube_do_valor
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
 
 models:
   take_home_clube_do_valor:
