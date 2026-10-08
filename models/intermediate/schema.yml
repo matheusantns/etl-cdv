@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: int_transactions
+    description: >
+      Transações staged com cadastro atual do cliente. Grain em transaction_id.
+      Inner join com dim_clients em client_id.
+    columns:
+      - name: transaction_id
+        description: Identificador único da transação; chave após o join.
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
+      - name: client_id
+        description: Identificador do cliente, sempre presente nesta camada.
+      - name: asset_ticker
+        description: Ticker do ativo negociado.
+      - name: operation
+        description: Tipo de operação = 'BUY' | 'SELL'.
+      - name: quantity
+        description: Quantidade absoluta da transação; sempre maior que zero.
+      - name: unit_price
+        description: Preço unitário da transação.
+      - name: transaction_date
+        description: Data da transação.
+      - name: client_name
+        description: Nome vigente na dim_clients no momento do join.
+      - name: client_city
+        description: Cidade vigente na dim_clients; C6 chega como Brasília.
+      - name: client_state
+        description: UF vigente na dim_clients.
