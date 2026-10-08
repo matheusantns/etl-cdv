@@ -1,4 +1,4 @@
-# Take-home Clube do Valor
+# Take-home CDV
 
 Projeto dbt local (DuckDB) que transforma os seeds de transações e clientes em staging, intermediate e marts. Não precisa de warehouse em nuvem.
 
