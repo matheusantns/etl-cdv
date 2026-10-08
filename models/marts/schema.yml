@@ -1,0 +1,92 @@
+version: 2
+
+models:
+  - name: dim_clients
+    description: >
+      Cadastro vigente do cliente. Grain em client_id.
+      Uma linha por cliente; cidade preenchida vence empate de created_at.
+    columns:
+      - name: client_id
+        description: Identificador único do cliente.
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
+      - name: name
+        description: Nome vigente do cliente.
+      - name: city
+        description: Cidade vigente do cliente
+      - name: state
+        description: UF vigente do cliente.
+      - name: created_at
+        description: Data de criação do cadastro vigente.
+
+  - name: fact_transactions
+    description: >
+      Transações enriquecidas com cadastro vigente, quantidade assinada e nocional.
+      Grain em transaction_id. Materialização incremental com merge.
+    columns:
+      - name: transaction_id
+        description: Identificador único da transação.
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
+      - name: client_id
+        description: Identificador do cliente da transação.
+      - name: asset_ticker
+        description: Ticker do ativo negociado.
+      - name: operation
+        description: Tipo de operação = 'BUY' | 'SELL'.
+        tests:
+          - accepted_values:
+              values: ['BUY', 'SELL']
+              config:
+                severity: error
+      - name: quantity
+        description: Quantidade absoluta da transação; sempre maior que zero.
+      - name: unit_price
+        description: Preço unitário da transação.
+      - name: transaction_date
+        description: Data da transação; watermark do incremental.
+      - name: client_name
+        description: Nome vigente na dim_clients no momento do join.
+      - name: client_city
+        description: Cidade vigente na dim_clients.
+      - name: client_state
+        description: UF vigente na dim_clients.
+      - name: signed_quantity
+        description: Quantidade com sinal (BUY positivo, SELL negativo) via macro signed_quantity.
+      - name: signed_notional
+        description: Nocional com sinal (signed_quantity * unit_price).
+
+  - name: mart_client_portfolio
+    description: >
+      Posição líquida por cliente e ativo. Grain em client_id + asset_ticker.
+      Inclui posição negativa. portfolio_id concatena as duas chaves.
+    columns:
+      - name: portfolio_id
+        description: Chave concatenada client_id|asset_ticker para unique nativo.
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
+      - name: client_id
+        description: Identificador do cliente da posição.
+      - name: client_name
+        description: Nome vigente na dim_clients.
+      - name: asset_ticker
+        description: Ticker do ativo da posição.
+      - name: net_quantity
+        description: Soma de quantidade assinada (BUY − SELL); pode ser negativa.
+      - name: net_notional
+        description: Soma de nocional assinado (BUY − SELL em valor).
