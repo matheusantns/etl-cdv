@@ -1,5 +1,9 @@
 # Take-home CDV
 
+[![dbt](https://github.com/matheusantns/etl-cdv/actions/workflows/dbt.yml/badge.svg)](https://github.com/matheusantns/etl-cdv/actions/workflows/dbt.yml)
+
+O badge reflete `dbt seed`, `dbt run` e `dbt test` no GitHub Actions.
+
 Projeto dbt local (DuckDB) que transforma os seeds de transações e clientes em staging, intermediate e marts. Não precisa de warehouse em nuvem.
 
 ## Vídeo
