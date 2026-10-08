@@ -1,6 +1,6 @@
 # Take-home CDV
 
-[![dbt](https://github.com/matheusantns/etl-cdv/actions/workflows/dbt.yml/badge.svg)](https://github.com/matheusantns/etl-cdv/actions/workflows/dbt.yml)
+![dbt](https://github.com/matheusantns/etl-cdv/actions/workflows/dbt.yml/badge.svg)
 
 O badge reflete `dbt seed`, `dbt run` e `dbt test` no GitHub Actions.
 
@@ -8,7 +8,7 @@ Projeto dbt local (DuckDB) que transforma os seeds de transações e clientes em
 
 ## Vídeo
 
-Link da gravação (5 minutos): ``
+Link da gravação: [https://drive.google.com/file/d/1haLchIqIh1v29ihClkkat2LvwyzoZnUr/view?usp=sharing](https://drive.google.com/file/d/1haLchIqIh1v29ihClkkat2LvwyzoZnUr/view?usp=sharing)
 
 ## Como rodar
 
@@ -54,3 +54,4 @@ Não estão no código. Ficam como evolução se a origem deixar de ser CSV est�
 
 1. **Quarentena.** Linhas estruturalmente inválidas (por exemplo `client_id` vazio ou `quantity <= 0`) hoje saem no staging. Em produção, o payload iria para um modelo/tabela de rejeição em vez de só desaparecer.
 2. **Lookback incremental.** `fact_transactions` usa watermark em `transaction_date`. Evento atrasado com data antiga não entra no merge. Uma janela de N dias atrás do máximo já materializado recuperaria correção tardia.
+
