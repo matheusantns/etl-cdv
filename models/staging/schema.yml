@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: Transações tipadas da origem, sem linha estruturalmente inválida.
+    columns:
+      - name: transaction_id
+        description: Identificador único da transação.
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - unique:
+              config:
+                severity: error
+      - name: client_id
+        description: Identificador único do cliente.
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: asset_ticker
+        description: Ticker do ativo negociado.
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: operation
+        description: Tipo de operação = 'BUY' | 'SELL'.
+        tests:
+          - not_null:
+              config:
+                severity: error
+          - accepted_values:
+              values: ['BUY', 'SELL']
+              config:
+                severity: error
+      - name: quantity
+        description: Quantidade absoluta da transação; sempre maior que zero.
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: unit_price
+        description: Preço unitário da transação.
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: transaction_date
+        description: Data da transação.
+        tests:
+          - not_null:
+              config:
+                severity: error
+
+  - name: stg_clients
+    description: Dump de clientes tipado, inclusive reenvios com o mesmo client_id.
+    columns:
+      - name: client_id
+        description: Identificador único do cliente.
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: name
+        description: Nome do cliente.
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: city
+        description: Cidade do cliente.
+      - name: state
+        description: UF do cliente.
+        tests:
+          - not_null:
+              config:
+                severity: error
+      - name: created_at
+        description: Data de criação do cliente.
+        tests:
+          - not_null:
+              config:
+                severity: error
